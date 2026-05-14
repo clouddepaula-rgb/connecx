@@ -47,8 +47,7 @@ async function getSiteConfig() {
 async function updateSiteConfig(updates) {
   const { data, error } = await supabaseClient
     .from('site_config')
-    .update({ ...updates, updated_at: new Date().toISOString() })
-    .eq('id', 1)
+    .upsert({ id: 1, ...updates })
     .select()
     .single()
 
@@ -229,8 +228,7 @@ async function getPortfolioConfig() {
 async function updatePortfolioConfig(updates) {
   const { data, error } = await supabaseClient
     .from('portfolio_config')
-    .update({ ...updates, updated_at: new Date().toISOString() })
-    .eq('id', 1)
+    .upsert({ id: 1, ...updates })
     .select()
     .single()
   if (error) { console.error('[Supabase] updatePortfolioConfig:', error.message); return null }

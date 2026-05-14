@@ -3,7 +3,12 @@ import { createClient } from '@supabase/supabase-js'
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dbfzolrdmbhjkrdgpjbq.supabase.co'
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRiZnpvbHJkbWJoamtyZGdwamJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMjMzMzcsImV4cCI6MjA5Mzc5OTMzN30.3iJBiKt2rOZrsKy-LE46f6S1-J26PT3h03uFmmM3UIg'
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { persistSession: false },
+  global: {
+    fetch: (url, options) => fetch(url, { ...options, cache: 'no-store' }),
+  },
+})
 
 export const ConnecxDB = {
   async getSiteConfig() {

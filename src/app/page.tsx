@@ -48,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export const revalidate = 3600
+export const revalidate = 0 // Disable cache to show live admin updates
 
 export default async function Home() {
   const [config, targetCards, processSteps, differentials, projects] = await Promise.all([
