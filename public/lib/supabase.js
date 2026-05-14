@@ -47,12 +47,14 @@ async function getSiteConfig() {
 async function updateSiteConfig(updates) {
   const { data, error } = await supabaseClient
     .from('site_config')
-    .upsert({ id: 1, ...updates })
+    .update(updates)
+    .eq('id', 1)
     .select()
     .single()
 
   if (error) {
     console.error('[Supabase] Erro ao atualizar site_config:', error.message)
+    alert(`Erro ao salvar no banco: ${error.message}`)
     return null
   }
   return data
@@ -228,10 +230,15 @@ async function getPortfolioConfig() {
 async function updatePortfolioConfig(updates) {
   const { data, error } = await supabaseClient
     .from('portfolio_config')
-    .upsert({ id: 1, ...updates })
+    .update(updates)
+    .eq('id', 1)
     .select()
     .single()
-  if (error) { console.error('[Supabase] updatePortfolioConfig:', error.message); return null }
+  if (error) { 
+    console.error('[Supabase] updatePortfolioConfig:', error.message)
+    alert(`Erro ao salvar no banco: ${error.message}`)
+    return null 
+  }
   return data
 }
 
