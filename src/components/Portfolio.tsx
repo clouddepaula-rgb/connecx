@@ -137,7 +137,7 @@ export default function Portfolio({ projects, config }: { projects: any[], confi
               <iframe 
                 ref={iframeRef}
                 title={`Preview do projeto ${currentProject.title}`}
-                src={currentProject.url_display ? (currentProject.url_display.startsWith('http') ? currentProject.url_display : `https://${currentProject.url_display}`) : 'about:blank'}
+                src={isRevealed && currentProject.url_display ? (currentProject.url_display.startsWith('http') ? currentProject.url_display : `https://${currentProject.url_display}`) : 'about:blank'}
                 onLoad={() => setIsLoading(false)}
                 className="origin-top-left transition-opacity duration-400 border-none bg-white"
                 style={{ opacity: isLoading ? 0 : 1 }}
