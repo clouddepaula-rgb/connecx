@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Connecx</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://dbfzolrdmbhjkrdgpjbq.supabase.co;">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="login-logo">connecx<span>admin</span></div>
+      <h2>Acesso Restrito</h2>
+      <p>Entre com sua conta para continuar</p>
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginEmail">E-mail</label>
+          <input type="email" id="loginEmail" placeholder="admin@connecx.dev" required>
+        </div>
+        <div class="field">
+          <label for="loginPassword">Senha</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required>
+        </div>
+        <div class="login-error" id="loginError"></div>
+        <button type="submit" class="btn-primary" id="loginBtn">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN LAYOUT -->
+  <div class="admin-layout" id="adminLayout" style="display:none">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-logo">connecx<span>admin</span></a>
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Fechar menu">✕</button>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-section="dashboard">
+          <span class="nav-icon">📊</span> Dashboard
+        </button>
+        <button class="nav-item" data-section="geral">
+          <span class="nav-icon">⚙️</span> Configurações Gerais
+        </button>
+        <button class="nav-item" data-section="hero">
+          <span class="nav-icon">🚀</span> Hero
+        </button>
+        <button class="nav-item" data-section="para-quem">
+          <span class="nav-icon">🎯</span> Para Quem
+        </button>
+        <button class="nav-item" data-section="portfolio">
+          <span class="nav-icon">💼</span> Portfólio
+        </button>
+        <button class="nav-item" data-section="portfolio-privado">
+          <span class="nav-icon">🔒</span> Portfólio Privado
+        </button>
+        <button class="nav-item" data-section="processo">
+          <span class="nav-icon">🔄</span> Processo
+        </button>
+        <button class="nav-item" data-section="diferenciais">
+          <span class="nav-icon">💎</span> Diferenciais
+        </button>
+        <button class="nav-item" data-section="cta">
+          <span class="nav-icon">📣</span> CTA Final
+        </button>
+        <button class="nav-item" data-section="leads">
+          <span class="nav-icon">📬</span> Leads
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="../index.html" target="_blank" class="btn-ghost-sm">← Ver site</a>
+        <button class="btn-ghost-sm danger" id="logoutBtn">Sair</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main" id="adminMain">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <button class="topbar-menu" id="topbarMenu" aria-label="Menu">☰</button>
+        <span class="topbar-title" id="topbarTitle">Dashboard</span>
+        <div class="topbar-right">
+          <span class="status-dot" id="statusDot"></span>
+          <span class="status-label" id="statusLabel">Conectado</span>
+        </div>
+      </header>
+
+      <!-- TOAST NOTIFICATION -->
+      <div class="toast" id="toast"></div>
+
+      <!-- ===== DASHBOARD ===== -->
+      <section class="admin-section active" id="section-dashboard">
+        <div class="page-header">
+          <h1>Dashboard</h1>
+          <p>Visão geral do seu site</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-icon">📬</span>
+            <div>
+              <strong id="stat-leads">—</strong>
+              <span>Leads recebidos</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">💼</span>
+            <div>
+              <strong id="stat-projects">—</strong>
+              <span>Projetos no portfólio</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">🎯</span>
+            <div>
+              <strong id="stat-cards">—</strong>
+              <span>Cards ativos</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">🌐</span>
+            <div>
+              <strong>Ativo</strong>
+              <span>Status do site</span>
+            </div>
+          </div>
+        </div>
+        <div class="section-card" style="margin-top:2rem">
+          <h3>Atalhos rápidos</h3>
+          <div class="quick-links">
+            <button class="quick-link" data-goto="hero">Editar Hero</button>
+            <button class="quick-link" data-goto="geral">WhatsApp & Meta</button>
+            <button class="quick-link" data-goto="portfolio">Adicionar Projeto</button>
+            <button class="quick-link" data-goto="leads">Ver Leads</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CONFIGURAÇÕES GERAIS ===== -->
+      <section class="admin-section" id="section-geral">
+        <div class="page-header">
+          <h1>Configurações Gerais</h1>
+          <p>Logo, WhatsApp, meta tags SEO</p>
+        </div>
+        <form class="section-card" id="form-geral">
+          <h3>Logo & Navegação</h3>
+          <div class="form-row">
+            <div class="field">
+              <label>Logo (texto principal)</label>
+              <input type="text" name="logo_text" placeholder="gabriel">
+            </div>
+            <div class="field">
+              <label>Logo (destaque)</label>
+              <input type="text" name="logo_span" placeholder="depaula">
+            </div>
+          </div>
+          <div class="field">
+            <label>Texto do botão CTA do nav</label>
+            <input type="text" name="nav_cta_text" placeholder="Quero meu site">
+          </div>
+
+          <h3 style="margin-top:1.5rem">WhatsApp</h3>
+          <div class="form-row">
+            <div class="field">
+              <label>Número (com DDI, sem espaços)</label>
+              <input type="text" name="whatsapp_number" placeholder="5513900000000">
+            </div>
+            <div class="field">
+              <label>Mensagem padrão</label>
+              <input type="text" name="whatsapp_message" placeholder="Oi Gabriel, quero um site!">
+            </div>
+          </div>
+
+          <h3 style="margin-top:1.5rem">SEO — Meta Tags</h3>
+          <div class="field">
+            <label>Title da página</label>
+            <input type="text" name="meta_title" placeholder="Gabriel de Paula — Sites Premium">
+          </div>
+          <div class="field">
+            <label>Meta Description</label>
+            <textarea name="meta_description" rows="2" placeholder="Sites sob medida para restaurantes..."></textarea>
+          </div>
+
+          <h3 style="margin-top:1.5rem">Footer</h3>
+          <div class="field">
+            <label>Texto do copyright</label>
+            <input type="text" name="footer_copy" placeholder="© 2026 Gabriel de Paula · Connecx">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Salvar configurações</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ===== HERO ===== -->
+      <section class="admin-section" id="section-hero">
+        <div class="page-header">
+          <h1>Hero</h1>
+          <p>Seção principal da landing page</p>
+        </div>
+        <form class="section-card" id="form-hero">
+          <div class="field">
+            <label>Badge (tag acima do título)</label>
+            <input type="text" name="hero_badge" placeholder="Tecnologia de Alto Nível · Entrega Real">
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>Título (linha 1)</label>
+              <input type="text" name="hero_title" placeholder="Seu negócio merece um site">
+            </div>
+            <div class="field">
+              <label>Título (linha 2 — destaque laranja)</label>
+              <input type="text" name="hero_title_span" placeholder="que trabalha por você.">
+            </div>
+          </div>
+          <div class="field">
+            <label>Subtítulo</label>
+            <textarea name="hero_sub" rows="2" placeholder="Sites desenvolvidos sob medida..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>Botão CTA primário</label>
+              <input type="text" name="hero_cta_primary" placeholder="Quero meu site →">
+            </div>
+            <div class="field">
+              <label>Botão CTA secundário</label>
+              <input type="text" name="hero_cta_ghost" placeholder="Ver projetos ↓">
+            </div>
+          </div>
+
+          <h3 style="margin-top:1.5rem">Números de Prova Social</h3>
+          <div class="form-row">
+            <div class="field"><label>Número 1</label><input type="text" name="proof_1_num" placeholder="15+"></div>
+            <div class="field"><label>Label 1</label><input type="text" name="proof_1_label" placeholder="projetos entregues"></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Número 2</label><input type="text" name="proof_2_num" placeholder="7 dias"></div>
+            <div class="field"><label>Label 2</label><input type="text" name="proof_2_label" placeholder="prazo médio"></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Número 3</label><input type="text" name="proof_3_num" placeholder="100%"></div>
+            <div class="field"><label>Label 3</label><input type="text" name="proof_3_label" placeholder="satisfação"></div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Salvar Hero</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ===== PARA QUEM ===== -->
+      <section class="admin-section" id="section-para-quem">
+        <div class="page-header">
+          <h1>Para Quem</h1>
+          <p>Cards da seção de público-alvo</p>
+          <button class="btn-primary" id="btnNewCard">+ Novo card</button>
+        </div>
+        <div class="section-card">
+          <h3>Título da seção</h3>
+          <form id="form-para-quem-titles">
+            <div class="form-row">
+              <div class="field">
+                <label>Tag</label>
+                <input type="text" name="section_para_quem_tag" placeholder="Para quem eu construo">
+              </div>
+              <div class="field">
+                <label>Título</label>
+                <input type="text" name="section_para_quem_title" placeholder="Cada negócio tem uma necessidade.">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Salvar títulos</button>
+            </div>
+          </form>
+        </div>
+        <div class="items-list" id="targetCardsList"></div>
+      </section>
+
+      <!-- ===== PORTFOLIO ===== -->
+      <section class="admin-section" id="section-portfolio">
+        <div class="page-header">
+          <h1>Portfólio</h1>
+          <p>Projetos exibidos na landing page</p>
+          <button class="btn-primary" id="btnNewProject">+ Novo projeto</button>
+        </div>
+        <div class="section-card">
+          <h3>Título da seção</h3>
+          <form id="form-portfolio-titles">
+            <div class="form-row">
+              <div class="field">
+                <label>Tag</label>
+                <input type="text" name="section_portfolio_tag" placeholder="Projetos reais">
+              </div>
+              <div class="field">
+                <label>Título</label>
+                <input type="text" name="section_portfolio_title" placeholder="Veja o que já foi construído">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Salvar títulos</button>
+            </div>
+          </form>
+        </div>
+        <div class="items-list" id="projectsList"></div>
+      </section>
+
+      <!-- ===== ADMIN PORTFÓLIO COMPLETO ===== -->
+      <section class="admin-section" id="section-portfolio-privado">
+        <div class="page-header">
+          <h1>Portfólio Privado</h1>
+          <p>Gerencie todo o conteúdo da sua página de portfólio pessoal</p>
+        </div>
+
+        <!-- TABS INTERNAS (OPCIONAL, mas vamos usar headings para simplicidade) -->
+        
+        <div class="section-card">
+          <h3>Navegação & Geral</h3>
+          <form id="form-portfolio-geral">
+            <div class="form-row">
+              <div class="field">
+                <label>Tag de Navegação</label>
+                <input type="text" name="nav_tag" placeholder="Portfólio Privado">
+              </div>
+              <div class="field">
+                <label>Texto Botão Nav</label>
+                <input type="text" name="nav_cta" placeholder="Falar comigo">
+              </div>
+            </div>
+            <div class="field">
+              <label>Copyright Footer</label>
+              <input type="text" name="footer_copy" placeholder="© 2026 Gabriel de Paula · Connecx">
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Salvar Geral</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="section-card">
+          <h3>Hero do Portfólio</h3>
+          <form id="form-portfolio-hero">
+            <div class="field">
+              <label>Badge</label>
+              <input type="text" name="hero_badge" placeholder="⚡ Desenvolvedor Full Stack · Vibe Coder">
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label>H1 Linha 1</label>
+                <input type="text" name="hero_h1_line1" placeholder="Construo o digital">
+              </div>
+              <div class="field">
+                <label>H1 Linha 2 (Destaque)</label>
+                <input type="text" name="hero_h1_line2" placeholder="que outros apenas prometem.">
+              </div>
+            </div>
+            <div class="field">
+              <label>Subtítulo</label>
+              <textarea name="hero_sub" rows="3"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label>CTA 1 (Projetos)</label>
+                <input type="text" name="hero_cta1" placeholder="Ver projetos →">
+              </div>
+              <div class="field">
+                <label>CTA 2 (WhatsApp)</label>
+                <input type="text" name="hero_cta2" placeholder="Falar no WhatsApp">
+              </div>
+            </div>
+            <h4 style="margin-top:1rem">Estatísticas</h4>
+            <div class="form-row">
+              <div class="field"><label>Stat 1 Num</label><input type="text" name="stat1_num"></div>
+              <div class="field"><label>Stat 1 Label</label><input type="text" name="stat1_label"></div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label>Stat 2 Num</label><input type="text" name="stat2_num"></div>
+              <div class="field"><label>Stat 2 Label</label><input type="text" name="stat2_label"></div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label>Stat 3 Num</label><input type="text" name="stat3_num"></div>
+              <div class="field"><label>Stat 3 Label</label><input type="text" name="stat3_label"></div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Salvar Hero</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="section-card">
+          <h3>Redes Sociais & Rodapé</h3>
+          <form id="form-portfolio-social">
+            <div class="form-row">
+              <div class="field">
+                <label>LinkedIn (URL)</label>
+                <input type="text" name="social_linkedin" placeholder="https://linkedin.com/in/...">
+              </div>
+              <div class="field">
+                <label>Instagram (URL)</label>
+                <input type="text" name="social_instagram" placeholder="https://instagram.com/...">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label>Email (URL/Link)</label>
+                <input type="text" name="social_email" placeholder="mailto:gabriel@...">
+              </div>
+              <div class="field">
+                <label>Copyright Rodapé</label>
+                <input type="text" name="footer_copy" placeholder="© 2026 Gabriel de Paula">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Salvar Rodapé & Sociais</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="section-card">
+          <h3>Seção Skills</h3>
+          <form id="form-portfolio-skills-titles">
+            <div class="form-row">
+              <div class="field">
+                <label>Label</label>
+                <input type="text" name="skills_label" placeholder="Stack & Habilidades">
+              </div>
+              <div class="field">
+                <label>Título H2</label>
+                <input type="text" name="skills_h2" placeholder="Tecnologia como vantagem competitiva.">
+              </div>
+            </div>
+            <div class="field">
+              <label>Descrição</label>
+              <textarea name="skills_p" rows="2"></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Salvar Títulos Skills</button>
+            </div>
+          </form>
+          <div style="margin-top:2rem; display: flex; justify-content: space-between; align-items: center;">
+            <h4>Cards de Habilidades</h4>
+            <button class="btn-primary btn-sm" id="btnNewPortfolioSkill">+ Nova Skill</button>
+          </div>
+          <div class="items-list" id="portfolioSkillsList"></div>
+        </div>
+
+        <div class="section-card">
+          <h3>Seção Projetos</h3>
+          <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1.5rem;">Gerencie os projetos que aparecem no showcase do portfólio.</p>
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+            <button class="btn-primary btn-sm" id="btnNewPrivateProject">+ Novo Projeto</button>
+          </div>
+          <div class="items-list" id="privateProjectsList"></div>
+        </div>
+
+        <div class="section-card">
+          <h3>Seção Processo</h3>
+          <form id="form-portfolio-process-titles">
+            <div class="form-row">
+              <div class="field">
+                <label>Label</label>
+                <input type="text" name="process_label" placeholder="Processo">
+              </div>
+              <div class="field">
+                <label>Título H2</label>
+                <input type="text" name="process_h2" placeholder="Da ideia ao ar — sem burocracia.">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Salvar Títulos Processo</button>
+            </div>
+          </form>
+          <div style="margin-top:2rem; display: flex; justify-content: space-between; align-items: center;">
+            <h4>Etapas do Processo</h4>
+            <button class="btn-primary btn-sm" id="btnNewPortfolioStep">+ Nova Etapa</button>
+          </div>
+          <div class="items-list" id="portfolioProcessList"></div>
+        </div>
+
+        <div class="section-card">
+          <h3>CTA Final Portfólio</h3>
+          <form id="form-portfolio-cta">
+            <div class="field">
+              <label>Label</label>
+              <input type="text" name="cta_label" placeholder="Contato">
+            </div>
+            <div class="field">
+              <label>Título H2</label>
+              <input type="text" name="cta_h2" placeholder="Gostou do que viu?">
+            </div>
+            <div class="field">
+              <label>Descrição</label>
+              <textarea name="cta_p" rows="2"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label>Texto Botão</label>
+                <input type="text" name="cta_btn" placeholder="Falar no WhatsApp →">
+              </div>
+              <div class="field">
+                <label>Nota Inferior</label>
+                <input type="text" name="cta_note" placeholder="Resposta rápida.">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Salvar CTA</button>
+            </div>
+          </form>
+        </div>
+
+      </section>
+
+      <!-- ===== PROCESSO ===== -->
+      <section class="admin-section" id="section-processo">
+        <div class="page-header">
+          <h1>Processo</h1>
+          <p>Etapas do "Como funciona"</p>
+          <button class="btn-primary" id="btnNewStep">+ Nova etapa</button>
+        </div>
+        <div class="section-card">
+          <h3>Título da seção</h3>
+          <form id="form-processo-titles">
+            <div class="form-row">
+              <div class="field">
+                <label>Tag</label>
+                <input type="text" name="section_processo_tag" placeholder="Como funciona">
+              </div>
+              <div class="field">
+                <label>Título</label>
+                <input type="text" name="section_processo_title" placeholder="Da ideia ao site no ar">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Salvar títulos</button>
+            </div>
+          </form>
+        </div>
+        <div class="items-list" id="stepsList"></div>
+      </section>
+
+      <!-- ===== DIFERENCIAIS ===== -->
+      <section class="admin-section" id="section-diferenciais">
+        <div class="page-header">
+          <h1>Diferenciais</h1>
+          <p>Cards do diferencial competitivo</p>
+          <button class="btn-primary" id="btnNewDiff">+ Novo card</button>
+        </div>
+        <div class="section-card">
+          <h3>Título da seção</h3>
+          <form id="form-diff-titles">
+            <div class="form-row">
+              <div class="field">
+                <label>Tag</label>
+                <input type="text" name="section_diff_tag" placeholder="O diferencial">
+              </div>
+              <div class="field">
+                <label>Título</label>
+                <input type="text" name="section_diff_title" placeholder="Por que trabalhar comigo">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Salvar títulos</button>
+            </div>
+          </form>
+        </div>
+        <div class="items-list" id="diffsList"></div>
+      </section>
+
+      <!-- ===== CTA FINAL ===== -->
+      <section class="admin-section" id="section-cta">
+        <div class="page-header">
+          <h1>CTA Final</h1>
+          <p>Seção de contato e chamada para ação</p>
+        </div>
+        <form class="section-card" id="form-cta">
+          <div class="field">
+            <label>Título</label>
+            <input type="text" name="cta_title" placeholder="Pronto pra sair do papel de vez?">
+          </div>
+          <div class="field">
+            <label>Subtítulo</label>
+            <input type="text" name="cta_sub" placeholder="Me conta o projeto. Respondo em até 2 horas.">
+          </div>
+          <div class="field">
+            <label>Texto do botão</label>
+            <input type="text" name="cta_btn_text" placeholder="Falar no WhatsApp →">
+          </div>
+          <div class="field">
+            <label>Nota abaixo do botão</label>
+            <input type="text" name="cta_note" placeholder="Resposta rápida. Projeto direto ao ponto.">
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Salvar CTA</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ===== LEADS ===== -->
+      <section class="admin-section" id="section-leads">
+        <div class="page-header">
+          <h1>Leads</h1>
+          <p>Contatos recebidos via landing page</p>
+        </div>
+        <div class="section-card">
+          <div class="leads-table-wrap">
+            <table class="leads-table" id="leadsTable">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Nome</th>
+                  <th>E-mail</th>
+                  <th>Telefone</th>
+                  <th>Mensagem</th>
+                  <th>WhatsApp</th>
+                </tr>
+              </thead>
+              <tbody id="leadsBody">
+                <tr><td colspan="6" class="empty-state">Carregando leads...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box" id="modalBox">
+      <div class="modal-header">
+        <h3 id="modalTitle">Editar item</h3>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Supabase via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../lib/supabase.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

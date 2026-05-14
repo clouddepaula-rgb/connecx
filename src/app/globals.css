@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-deep: #06060b;
+  --color-bg-primary: #0c0c14;
+  --color-bg-surface: #131320;
+  --color-bg-card: #1a1a2a;
+  --color-accent: #ff6b35;
+  --color-accent-hover: #ff8555;
+  --color-accent-2: #00d4aa;
+  --color-accent-3: #6366f1;
+  --color-text-muted: #a1a1aa;
+  
+  --radius-radius: 16px;
+  --radius-radius-sm: 10px;
+}
+
+:root {
+  --bg-deep: #06060b;
+  --bg-primary: #0c0c14;
+  --bg-surface: #131320;
+  --bg-card: #1a1a2a;
+  --accent: #ff6b35;
+  --accent-hover: #ff8555;
+  --accent-glow: rgba(255, 107, 53, 0.12);
+  --accent-2: #00d4aa;
+  --accent-3: #6366f1;
+  --text: #ffffff;
+  --text-muted: #a1a1aa;
+  --border: rgba(255, 255, 255, 0.06);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  background: var(--bg-deep);
+  color: #fff;
+  font-family: var(--font-dm-sans), sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+  line-height: 1.6;
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-linear-to-br from-accent via-[#ff9a6c] to-accent-2 bg-clip-text text-transparent;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-surface);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(30px, -20px); }
+  66% { transform: translate(-20px, 15px); }
+}
+
+@keyframes bgMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 60px 60px; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-float {
+  animation: float 12s ease-in-out infinite;
+}
+
+.animate-bg-move {
+  animation: bgMove 30s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 1s linear infinite;
+}
+
+/* High-Performance Scroll Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px) translateZ(0);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
