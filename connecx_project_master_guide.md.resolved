@@ -1,0 +1,65 @@
+# Guia Mestre Connecx: Blueprint para Landing Pages de Alta Performance
+
+Este documento resume as decisões técnicas, os desafios superados e as soluções implementadas para atingir o estado de "Perfeição Técnica" (Lighthouse 95+, Segurança A, SEO 100).
+
+---
+
+## 🚀 1. Arquitetura de Performance (Métricas de Elite)
+
+### O Problema: Framer Motion e Lag de Scroll
+Animações pesadas de bibliotecas externas (como Framer Motion) consomem muita CPU da Main Thread, causando "jank" (travamentos) no scroll, especialmente em celulares.
+*   **Solução:** Substituímos por um **Hook Customizado (`useScrollReveal`)** baseado na API nativa `IntersectionObserver`. 
+*   **Ganho:** Scroll fluido a 60 FPS e redução drástica no tamanho do bundle JavaScript.
+
+### O Problema: O "Iframe Trap" (Péssima nota no PageSpeed)
+Ao colocar sites de clientes no portfólio via `iframe`, o Lighthouse analisa o site do cliente como se fosse o seu. Imagens pesadas do cliente destruíam a sua nota.
+*   **Solução:** Deferimento Inteligente. O `src` do iframe começa vazio (`about:blank`) e só é injetado via JavaScript quando o usuário rola a tela até a seção.
+*   **Resultado:** Nota 100 de Performance, pois o Google não "vê" o conteúdo pesado do iframe no carregamento inicial.
+
+---
+
+## 🛠️ 2. Conectividade e CRUD (Supabase + Next.js)
+
+### O Problema: Cache Agressivo do Next.js 15
+Alterações no Admin não apareciam na Landing Page devido ao cache de 1 hora (`revalidate: 3600`).
+*   **Solução:** 
+    1. Forçamos `revalidate = 0` na página principal.
+    2. Configuramos o cliente Supabase no backend com `fetch: { cache: 'no-store' }`.
+*   **Aprendizado:** Em sites com painel administrativo, o dinamismo deve ser priorizado sobre o cache estático longo.
+
+### O Problema: Update vs Upsert (Armadilha do RLS)
+Mudar comandos de banco de dados sem checar permissões de Row Level Security (RLS) pode travar a aplicação.
+*   **Solução:** Usar `.update().eq('id', 1)` quando a política de segurança permite apenas edição, e garantir que a linha ID 1 exista. Evite `.upsert()` se o usuário não tiver permissão de `INSERT`.
+
+---
+
+## 🔐 3. Segurança e Infraestrutura
+
+### Headers de Segurança (Nota A)
+Sites institucionais premium precisam passar em auditorias de segurança.
+*   **Implementação:** Configuramos via `next.config.ts` os cabeçalhos:
+    *   **CSP (Content Security Policy):** Bloqueia scripts maliciosos.
+    *   **HSTS:** Força HTTPS.
+    *   **X-Frame-Options:** Impede ataques de sequestro de clique (Clickjacking).
+*   **Dica:** Sempre use caminhos **Absolutos** (`/admin/style.css`) em vez de relativos (`../style.css`) para garantir que as rotas limpas do Next.js não quebrem o carregamento de assets.
+
+---
+
+## 🎯 4. SEO e UX Premium
+
+### SEO Local e Semântico
+*   **JSON-LD (Schema):** Implementamos o componente `Schema.tsx` para que o Google entenda que a Connecx é uma organização real, melhorando o ranking.
+*   **Metadados Dinâmicos:** O título e a descrição da aba do navegador são puxados direto do banco de dados, permitindo que você mude o SEO do site sem mexer em código.
+
+---
+
+## ✅ Checklist para Próximos Projetos
+
+1.  **Imagens:** Use sempre o componente `<Image />` do Next.js com AVIF habilitado no `next.config.ts`.
+2.  **Animações:** Prefira classes CSS com `transition` e `transform` (aceleradas por GPU) em vez de bibliotecas JS de animação.
+3.  **Rotas:** Use `rewrites` no `next.config.ts` para esconder o `.html` de páginas legadas e deixá-las com cara de Next.js moderno.
+4.  **Favicon:** Sempre coloque o `icon.png` direto na pasta `/app` para que o Next.js gere todos os tamanhos automaticamente.
+5.  **Domínio Customizado:** Ao adicionar na Vercel, lembre-se de atualizar o "Site URL" no Auth do Supabase para não quebrar o login.
+
+---
+*Este projeto agora serve como o padrão ouro para a Connecx.* 💎

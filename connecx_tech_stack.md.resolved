@@ -1,0 +1,52 @@
+# Stack Tecnológica Connecx: O Padrão Ouro Institucional
+
+Para manter o nível de excelência alcançado neste projeto, utilize esta lista de tecnologias e versões como base para seus próximos desenvolvimentos.
+
+---
+
+## 🏗️ 1. Core Framework
+*   **Next.js 15 (App Router):** O framework React mais moderno do mundo. Escolhemos a versão 15 pelo suporte aprimorado a Server Components e otimização automática de carregamento.
+*   **TypeScript:** Garantia de código sem bugs e autocompletar inteligente durante o desenvolvimento.
+*   **Node.js (LTS):** Ambiente de execução estável para o build da aplicação.
+
+---
+
+## 🎨 2. Design & Estilização
+*   **Tailwind CSS v4:** A versão mais recente, utilizando o motor "Lightning CSS" para compilação ultra-rápida.
+*   **CSS Variables:** Sistema de design centralizado no `globals.css` para fácil troca de temas (cores, raios de borda, sombras).
+*   **Google Fonts:**
+    *   *Syne:* Para títulos impactantes e modernos.
+    *   *DM Sans:* Para legibilidade máxima em textos longos.
+*   **Lucide React:** Biblioteca de ícones leve e consistente.
+
+---
+
+## 🗄️ 3. Backend & Persistência
+*   **Supabase:** Backend-as-a-Service (BaaS) completo.
+    *   *PostgreSQL:* Banco de dados relacional robusto.
+    *   *Supabase Auth:* Gerenciamento de sessões e login para o Admin.
+    *   *Row Level Security (RLS):* Proteção de dados direto no banco.
+    *   *PostgREST:* API automática para o Admin Vanilla JS e para o Next.js.
+
+---
+
+## 🚀 4. Performance & UX
+*   **IntersectionObserver API:** Para animações de scroll "reveal" sem depender de bibliotecas pesadas como Framer Motion.
+*   **Next/Image:** Otimização automática de imagens para formatos modernos (AVIF e WebP).
+*   **Dynamic Imports (`next/dynamic`):** Carregamento adiado de componentes pesados para reduzir o tempo de interação inicial (LCP).
+
+---
+
+## 🔍 5. SEO & Segurança
+*   **Next.js Metadata API:** Para títulos, descrições e tags Open Graph (redes sociais) dinâmicas.
+*   **JSON-LD (Schema.org):** Marcação de dados estruturados para que o Google exiba o site com destaque.
+*   **Security Headers:** Configuração via `next.config.ts` (CSP, HSTS, X-Frame-Options) para nota máxima em relatórios de segurança.
+
+---
+
+## 🚢 6. Deploy & DevOps
+*   **Vercel:** Plataforma oficial do Next.js. Garante que o site esteja em uma rede global de servidores (Edge), entregando conteúdo na velocidade da luz.
+*   **Git / GitHub:** Controle de versão profissional e integração contínua (CI/CD) — cada `git push` atualiza o site automaticamente.
+
+---
+**Dica de Qualidade:** Sempre que iniciar um novo projeto, copie a estrutura de pastas (`/app`, `/components`, `/hooks`, `/lib`) e o arquivo `next.config.ts` deste projeto Connecx. Isso garante que você comece com 100% das otimizações já prontas.
