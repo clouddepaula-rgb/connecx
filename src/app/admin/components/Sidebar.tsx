@@ -9,6 +9,7 @@ const navItems = [
   { id: 'hero', label: 'Hero', icon: '🚀' },
   { id: 'para-quem', label: 'Para Quem', icon: '🎯' },
   { id: 'portfolio', label: 'Portfólio', icon: '💼' },
+  { id: 'portfolio-privado', label: 'Portfólio Privado', icon: '🔒' },
   { id: 'processo', label: 'Processo', icon: '🔄' },
   { id: 'diferenciais', label: 'Diferenciais', icon: '💎' },
   { id: 'cta', label: 'CTA Final', icon: '📣' },

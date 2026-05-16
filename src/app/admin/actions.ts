@@ -54,4 +54,60 @@ export async function deleteTargetCard(id: number) {
   return { success: true }
 }
 
+export async function upsertPortfolioProject(data: any) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('portfolio_projects').upsert(data)
+  if (error) throw new Error(error.message)
+  revalidatePath('/')
+  return { success: true }
+}
+
+export async function deletePortfolioProject(id: number) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('portfolio_projects').delete().eq('id', id)
+  if (error) throw new Error(error.message)
+  revalidatePath('/')
+  return { success: true }
+}
+
+export async function updatePortfolioConfig(data: any) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('portfolio_config').update(data).eq('id', 1)
+  if (error) throw new Error(error.message)
+  revalidatePath('/')
+  return { success: true }
+}
+
+export async function upsertProcessStep(data: any) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('process_steps').upsert(data)
+  if (error) throw new Error(error.message)
+  revalidatePath('/')
+  return { success: true }
+}
+
+export async function deleteProcessStep(id: number) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('process_steps').delete().eq('id', id)
+  if (error) throw new Error(error.message)
+  revalidatePath('/')
+  return { success: true }
+}
+
+export async function upsertDifferential(data: any) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('differentials').upsert(data)
+  if (error) throw new Error(error.message)
+  revalidatePath('/')
+  return { success: true }
+}
+
+export async function deleteDifferential(id: number) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('differentials').delete().eq('id', id)
+  if (error) throw new Error(error.message)
+  revalidatePath('/')
+  return { success: true }
+}
+
 // Adicionar mais conforme necessário para portfólio, processos etc.
