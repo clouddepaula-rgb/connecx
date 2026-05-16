@@ -9,10 +9,18 @@ export default function PortfolioSection({ config, projects, saving, setSaving }
   async function handleUpsert(formData: FormData) {
     setSaving(true)
     const data = Object.fromEntries(formData)
-    const result = await upsertPortfolioProject({ 
+    
+    // Converte checkbox/switch se houver, mas aqui são inputs de texto
+    const payload = {
       ...(editingProject?.id ? { id: editingProject.id } : {}),
-      ...data 
-    })
+      title: data.title,
+      category: data.category,
+      url_display: data.url_display, // O NOME CORRETO DA COLUNA É url_display
+      active: true,
+      position: editingProject?.position || projects.length + 1
+    }
+
+    const result = await upsertPortfolioProject(payload)
     
     setSaving(false)
     if (result.error) {
@@ -82,8 +90,8 @@ export default function PortfolioSection({ config, projects, saving, setSaving }
                   </div>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[0.7rem] text-[#666] uppercase">Link da Imagem (URL)</label>
-                  <input name="image_url" defaultValue={editingProject?.image_url} placeholder="https://..." className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-[6px] text-white p-2.5 outline-none focus:border-[#ff6b2b]" />
+                  <label className="text-[0.7rem] text-[#666] uppercase">URL do Site (Visualização)</label>
+                  <input name="url_display" defaultValue={editingProject?.url_display} placeholder="ex: connecx.com.br" required className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-[6px] text-white p-2.5 outline-none focus:border-[#ff6b2b]" />
                 </div>
                 <div className="flex gap-3">
                   <button type="submit" disabled={saving} className="bg-[#ff6b2b] text-white font-bold rounded-[6px] px-6 py-2.5 hover:bg-[#ff8c55] transition-all flex-1">
