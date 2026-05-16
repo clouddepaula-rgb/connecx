@@ -1,7 +1,22 @@
+/**
+ * Cliente Supabase — SERVER ONLY
+ *
+ * Usa variáveis de ambiente SEM o prefixo NEXT_PUBLIC_, portanto
+ * NUNCA são incluídas no bundle enviado ao browser.
+ * Importe este módulo apenas em Server Components, Route Handlers e
+ * Server Actions.
+ */
 import { createClient } from '@supabase/supabase-js'
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dbfzolrdmbhjkrdgpjbq.supabase.co'
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRiZnpvbHJkbWJoamtyZGdwamJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMjMzMzcsImV4cCI6MjA5Mzc5OTMzN30.3iJBiKt2rOZrsKy-LE46f6S1-J26PT3h03uFmmM3UIg'
+const SUPABASE_URL = process.env.SUPABASE_URL
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY
+
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  throw new Error(
+    '[Connecx] Variáveis SUPABASE_URL e SUPABASE_ANON_KEY não encontradas. ' +
+    'Crie o arquivo .env.local com essas variáveis. Veja .env.example para referência.'
+  )
+}
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: false },
