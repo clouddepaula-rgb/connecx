@@ -11,9 +11,10 @@ export default function CtaSection({ config, saving, setSaving }: any) {
       <div className="bg-[#141414] border border-[#1e1e1e] rounded-[10px] p-8 max-w-[800px]">
         <form action={async (formData) => {
           setSaving(true)
-          await updateSiteConfig(Object.fromEntries(formData))
+          const result = await updateSiteConfig(Object.fromEntries(formData))
           setSaving(false)
-          alert('✅ CTA Final salvo!')
+          if (result.error) alert('❌ ' + result.error)
+          else alert('✅ CTA Final salvo!')
         }} className="flex flex-col gap-6">
           <div className="flex flex-col gap-1.5">
             <label className="text-[0.8rem] font-semibold text-[#666] uppercase tracking-[0.04em]">Título</label>

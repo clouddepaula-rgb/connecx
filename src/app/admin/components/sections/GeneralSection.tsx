@@ -12,9 +12,10 @@ export default function GeneralSection({ config, saving, setSaving }: any) {
       <div className="bg-[#141414] border border-[#1e1e1e] rounded-[10px] p-8 max-w-[800px]">
         <form action={async (formData) => {
           setSaving(true)
-          await updateSiteConfig(Object.fromEntries(formData))
+          const result = await updateSiteConfig(Object.fromEntries(formData))
           setSaving(false)
-          alert('✅ Configurações salvas!')
+          if (result.error) alert('❌ ' + result.error)
+          else alert('✅ Configurações salvas!')
         }} className="flex flex-col gap-6">
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-1.5">

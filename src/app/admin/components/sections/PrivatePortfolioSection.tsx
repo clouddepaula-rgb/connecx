@@ -14,9 +14,10 @@ export default function PrivatePortfolioSection({ portfolioConfig, saving, setSa
           <h3 className="font-syne font-bold text-[1rem] mb-6 text-white border-b border-[#1e1e1e] pb-3">Navegação & Geral</h3>
           <form action={async (formData) => {
             setSaving(true)
-            await updatePortfolioConfig(Object.fromEntries(formData))
+            const result = await updatePortfolioConfig(Object.fromEntries(formData))
             setSaving(false)
-            alert('✅ Geral do Portfólio salvo!')
+            if (result.error) alert('❌ ' + result.error)
+            else alert('✅ Geral do Portfólio salvo!')
           }} className="flex flex-col gap-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
@@ -38,9 +39,10 @@ export default function PrivatePortfolioSection({ portfolioConfig, saving, setSa
           <h3 className="font-syne font-bold text-[1rem] mb-6 text-white border-b border-[#1e1e1e] pb-3">Hero do Portfólio</h3>
           <form action={async (formData) => {
             setSaving(true)
-            await updatePortfolioConfig(Object.fromEntries(formData))
+            const result = await updatePortfolioConfig(Object.fromEntries(formData))
             setSaving(false)
-            alert('✅ Hero do Portfólio salvo!')
+            if (result.error) alert('❌ ' + result.error)
+            else alert('✅ Hero do Portfólio salvo!')
           }} className="flex flex-col gap-6">
             <div className="flex flex-col gap-1.5">
               <label className="text-[0.8rem] font-semibold text-[#666] uppercase tracking-[0.04em]">Badge</label>

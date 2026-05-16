@@ -14,9 +14,10 @@ export default function TargetSection({ config, cards, saving, setSaving }: any)
           <h3 className="font-syne font-bold text-[1rem] mb-6 text-white border-b border-[#1e1e1e] pb-3">Títulos da Seção</h3>
           <form action={async (formData) => {
             setSaving(true)
-            await updateSiteConfig(Object.fromEntries(formData))
+            const result = await updateSiteConfig(Object.fromEntries(formData))
             setSaving(false)
-            alert('✅ Títulos de Para Quem salvos!')
+            if (result.error) alert('❌ ' + result.error)
+            else alert('✅ Títulos de Para Quem salvos!')
           }} className="flex flex-col gap-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
@@ -34,31 +35,34 @@ export default function TargetSection({ config, cards, saving, setSaving }: any)
 
         <div className="grid grid-cols-1 gap-4">
           <h3 className="font-syne font-bold text-[1rem] text-white">Gerenciar Cards</h3>
-          {cards.map((card: any) => (
-            <div key={card.id} className="bg-[#141414] border border-[#1e1e1e] rounded-[10px] p-6">
-              <form action={async (formData) => {
-                setSaving(true)
-                const data = Object.fromEntries(formData)
-                await upsertTargetCard({ id: card.id, ...data })
-                setSaving(false)
-                alert(`✅ Card "${data.title}" atualizado!`)
-              }} className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[0.7rem] text-[#666] uppercase">Ícone</label>
-                  <input name="icon" defaultValue={card.icon} className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-[6px] text-white p-2 outline-none focus:border-[#ff6b2b]" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[0.7rem] text-[#666] uppercase">Título</label>
-                  <input name="title" defaultValue={card.title} className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-[6px] text-white p-2 outline-none focus:border-[#ff6b2b]" />
-                </div>
-                <div className="flex flex-col gap-1.5 col-span-2">
-                  <label className="text-[0.7rem] text-[#666] uppercase">Descrição</label>
-                  <input name="description" defaultValue={card.description} className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-[6px] text-white p-2 outline-none focus:border-[#ff6b2b]" />
-                </div>
-                <button type="submit" disabled={saving} className="bg-[#1a1a1a] border border-[#1e1e1e] text-white rounded-[6px] py-2 text-[0.85rem] hover:border-[#ff6b2b] transition-all">Atualizar Card</button>
-              </form>
-            </div>
-          ))}
+          <div className="grid grid-cols-1 gap-4">
+            {cards.map((card: any) => (
+              <div key={card.id} className="bg-[#141414] border border-[#1e1e1e] rounded-[10px] p-6">
+                <form action={async (formData) => {
+                  setSaving(true)
+                  const data = Object.fromEntries(formData)
+                  const result = await upsertTargetCard({ id: card.id, ...data })
+                  setSaving(false)
+                  if (result.error) alert('❌ ' + result.error)
+                  else alert(`✅ Card "${data.title}" atualizado!`)
+                }} className="grid grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[0.7rem] text-[#666] uppercase">Ícone</label>
+                    <input name="icon" defaultValue={card.icon} required className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-[6px] text-white p-2.5 outline-none focus:border-[#ff6b2b]" />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[0.7rem] text-[#666] uppercase">Título</label>
+                    <input name="title" defaultValue={card.title} required className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-[6px] text-white p-2.5 outline-none focus:border-[#ff6b2b]" />
+                  </div>
+                  <div className="flex flex-col gap-1.5 col-span-2">
+                    <label className="text-[0.7rem] text-[#666] uppercase">Descrição</label>
+                    <textarea name="description" defaultValue={card.description} required className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-[6px] text-white p-2.5 outline-none focus:border-[#ff6b2b] min-h-[60px]" />
+                  </div>
+                  <button type="submit" disabled={saving} className="bg-[#1a1a1a] border border-[#1e1e1e] text-white rounded-[6px] py-2.5 text-[0.85rem] hover:border-[#ff6b2b] hover:text-[#ff6b2b] transition-all font-bold">Atualizar este Card</button>
+                </form>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

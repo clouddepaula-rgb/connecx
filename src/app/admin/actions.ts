@@ -31,83 +31,133 @@ export async function logout() {
 // --- CRUD Actions ---
 
 export async function updateSiteConfig(data: any) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('site_config').update(data).eq('id', 1)
-  if (error) throw new Error(error.message)
-  revalidatePath('/')
-  return { success: true }
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.from('site_config').update(data).eq('id', 1)
+    if (error) throw error
+    revalidatePath('/')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    return { error: error.message }
+  }
 }
 
 export async function upsertTargetCard(data: any) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('target_cards').upsert(data)
-  if (error) throw new Error(error.message)
-  revalidatePath('/')
-  return { success: true }
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.from('target_cards').upsert(data)
+    if (error) throw error
+    revalidatePath('/')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    return { error: error.message }
+  }
 }
 
 export async function deleteTargetCard(id: number) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('target_cards').delete().eq('id', id)
-  if (error) throw new Error(error.message)
-  revalidatePath('/')
-  return { success: true }
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.from('target_cards').delete().eq('id', id)
+    if (error) throw error
+    revalidatePath('/')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    return { error: error.message }
+  }
 }
 
 export async function upsertPortfolioProject(data: any) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('portfolio_projects').upsert(data)
-  if (error) throw new Error(error.message)
-  revalidatePath('/')
-  return { success: true }
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.from('portfolio_projects').upsert(data)
+    if (error) throw error
+    revalidatePath('/')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    return { error: error.message }
+  }
 }
 
 export async function deletePortfolioProject(id: number) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('portfolio_projects').delete().eq('id', id)
-  if (error) throw new Error(error.message)
-  revalidatePath('/')
-  return { success: true }
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.from('portfolio_projects').delete().eq('id', id)
+    if (error) throw error
+    revalidatePath('/')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    return { error: error.message }
+  }
 }
 
 export async function updatePortfolioConfig(data: any) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('portfolio_config').update(data).eq('id', 1)
-  if (error) throw new Error(error.message)
-  revalidatePath('/')
-  return { success: true }
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.from('portfolio_config').update(data).eq('id', 1)
+    if (error) throw error
+    revalidatePath('/')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    return { error: error.message }
+  }
 }
 
 export async function upsertProcessStep(data: any) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('process_steps').upsert(data)
-  if (error) throw new Error(error.message)
-  revalidatePath('/')
-  return { success: true }
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.from('process_steps').upsert(data)
+    if (error) throw error
+    revalidatePath('/')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    return { error: error.message }
+  }
 }
 
 export async function deleteProcessStep(id: number) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('process_steps').delete().eq('id', id)
-  if (error) throw new Error(error.message)
-  revalidatePath('/')
-  return { success: true }
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.from('process_steps').delete().eq('id', id)
+    if (error) throw error
+    revalidatePath('/')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    return { error: error.message }
+  }
 }
 
 export async function upsertDifferential(data: any) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('differentials').upsert(data)
-  if (error) throw new Error(error.message)
-  revalidatePath('/')
-  return { success: true }
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.from('differentials').upsert(data)
+    if (error) throw error
+    revalidatePath('/')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    return { error: error.message }
+  }
 }
 
 export async function deleteDifferential(id: number) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('differentials').delete().eq('id', id)
-  if (error) throw new Error(error.message)
-  revalidatePath('/')
-  return { success: true }
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.from('differentials').delete().eq('id', id)
+    if (error) throw error
+    revalidatePath('/')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error: any) {
+    return { error: error.message }
+  }
 }
 
 // Adicionar mais conforme necessário para portfólio, processos etc.
