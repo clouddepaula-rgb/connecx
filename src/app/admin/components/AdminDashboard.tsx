@@ -94,7 +94,7 @@ export default function AdminDashboard({ initialData }: { initialData: any }) {
           {activeSection === 'hero' && <HeroSection config={initialData.config} saving={saving} setSaving={setSaving} />}
           {activeSection === 'para-quem' && <TargetSection config={initialData.config} cards={initialData.cards} saving={saving} setSaving={setSaving} />}
           {activeSection === 'portfolio' && <PortfolioSection config={initialData.config} projects={initialData.projects} saving={saving} setSaving={setSaving} />}
-          {activeSection === 'portfolio-privado' && <PrivatePortfolioSection portfolioConfig={initialData.portfolioConfig} saving={saving} setSaving={setSaving} />}
+          {activeSection === 'portfolio-privado' && <PrivatePortfolioSection portfolioConfig={initialData.portfolioConfig} projects={initialData.projects} saving={saving} setSaving={setSaving} />}
           {activeSection === 'processo' && <ProcessSection config={initialData.config} steps={initialData.steps} saving={saving} setSaving={setSaving} />}
           {activeSection === 'diferenciais' && <DiffSection config={initialData.config} diffs={initialData.diffs} saving={saving} setSaving={setSaving} />}
           {activeSection === 'cta' && <CtaSection config={initialData.config} saving={saving} setSaving={setSaving} />}

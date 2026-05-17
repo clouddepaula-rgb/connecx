@@ -46,15 +46,15 @@ export default function Navbar({ config }: { config: any }) {
 
         {/* Desktop Links */}
         <div className="hidden md:flex gap-8">
-          <Link href="#para-quem" className="text-text-muted text-[0.9rem] no-underline hover:text-white transition-colors">Para Quem</Link>
-          <Link href="#portfolio" className="text-text-muted text-[0.9rem] no-underline hover:text-white transition-colors">Projetos</Link>
-          <Link href="#processo" className="text-text-muted text-[0.9rem] no-underline hover:text-white transition-colors">Processo</Link>
-          <Link href="#diferencial" className="text-text-muted text-[0.9rem] no-underline hover:text-white transition-colors">Diferencial</Link>
+          <a href="/#para-quem" className="text-text-muted text-[0.9rem] no-underline hover:text-white transition-colors">Para Quem</a>
+          <a href="/#portfolio" className="text-text-muted text-[0.9rem] no-underline hover:text-white transition-colors">Projetos</a>
+          <a href="/#processo" className="text-text-muted text-[0.9rem] no-underline hover:text-white transition-colors">Processo</a>
+          <a href="/#diferencial" className="text-text-muted text-[0.9rem] no-underline hover:text-white transition-colors">Diferencial</a>
         </div>
 
-        <Link href="#contato" className="hidden md:inline-flex items-center bg-accent hover:bg-accent-hover text-white px-[22px] py-[10px] text-[0.85rem] font-medium rounded-full no-underline transition-all hover:-translate-y-px">
+        <a href="/#contato" className="hidden md:inline-flex items-center bg-accent hover:bg-accent-hover text-white px-[22px] py-[10px] text-[0.85rem] font-medium rounded-full no-underline transition-all hover:-translate-y-px">
           {config.nav_cta_text || 'Quero meu site'}
-        </Link>
+        </a>
 
         {/* Mobile Toggle */}
         <button 
@@ -72,11 +72,11 @@ export default function Navbar({ config }: { config: any }) {
         isMobileMenuOpen ? "max-h-[300px] py-6" : "max-h-0 py-0"
       )}>
         <div className="flex flex-col items-center gap-6">
-          <Link href="#para-quem" onClick={() => setIsMobileMenuOpen(false)} className="text-text-muted hover:text-white no-underline">Para Quem</Link>
-          <Link href="#portfolio" onClick={() => setIsMobileMenuOpen(false)} className="text-text-muted hover:text-white no-underline">Projetos</Link>
-          <Link href="#processo" onClick={() => setIsMobileMenuOpen(false)} className="text-text-muted hover:text-white no-underline">Processo</Link>
-          <Link href="#diferencial" onClick={() => setIsMobileMenuOpen(false)} className="text-text-muted hover:text-white no-underline">Diferencial</Link>
-          <Link href="#contato" onClick={() => setIsMobileMenuOpen(false)} className="bg-accent text-white px-6 py-3 rounded-full no-underline">Quero meu site</Link>
+          <a href="/#para-quem" onClick={() => setIsMobileMenuOpen(false)} className="text-text-muted hover:text-white no-underline">Para Quem</a>
+          <a href="/#portfolio" onClick={() => setIsMobileMenuOpen(false)} className="text-text-muted hover:text-white no-underline">Projetos</a>
+          <a href="/#processo" onClick={() => setIsMobileMenuOpen(false)} className="text-text-muted hover:text-white no-underline">Processo</a>
+          <a href="/#diferencial" onClick={() => setIsMobileMenuOpen(false)} className="text-text-muted hover:text-white no-underline">Diferencial</a>
+          <a href="/#contato" onClick={() => setIsMobileMenuOpen(false)} className="bg-accent text-white px-6 py-3 rounded-full no-underline">Quero meu site</a>
         </div>
       </div>
     </nav>
